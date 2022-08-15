@@ -36,9 +36,11 @@
    <div class="form-group">
       <label>Ваш мастер?!</label>
       <select name="barber" class="form-control">
-        <option >Jassie Pinkman</option>
-        <option >Tony Walkins</option>
-        <option >Bruce Wane</option>
+
+         <!--  Для выбора и сохранения его в форме при незаполненных других полях используется <%= %> оборот Ruby для вставки выполняемого правила -->
+        <option <%= @barber == 'Jassie Pinkman' ? 'selected' : '' %>>Jassie Pinkman</option>
+        <option <%= @barber == 'Tony Walkins' ? 'selected' : '' %>>Tony Walkins</option>
+        <option <%= @barber == 'Bruce Wane' ? 'selected' : '' %>>Bruce Wane</option>
       </select>
    </div>
 
