@@ -1,7 +1,17 @@
 #encoding: utf-8
-require 'rubygems'
-require 'sinatra'
-require 'sinatra/reloader'
+require 'rubygems' 			# Подключаем возможность использования гемов Руби
+require 'sinatra'				# Подключаем гем Синатры
+require 'sinatra/reloader' # Подключаем гем для обновления страницы без перезапуска синатры
+require 'sqlite3'				# Подключаем SQL
+
+# Инициализация БД
+configure do 
+
+	# Подключение к БД. Если файл есть - будет открыт, если нет - будет создан.
+	@db = SQLite3::Database.new 'Barbershop.sqlite' 
+
+end
+
 
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>!!!"			
