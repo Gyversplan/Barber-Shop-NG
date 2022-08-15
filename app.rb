@@ -10,6 +10,15 @@ configure do
 	# Подключение к БД. Если файл есть - будет открыт, если нет - будет создан.
 	@db = SQLite3::Database.new 'Barbershop.sqlite' 
 
+	# Создаем таблицу
+	@db.execute 'create table if not exists "users"
+	( 
+	  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+	  "username" TEXT,
+	  "datestamp" TEXT,
+	  "barber" TEXT,
+	  "color" TEXT
+	)'
 end
 
 
