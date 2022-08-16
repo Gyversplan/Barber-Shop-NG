@@ -10,6 +10,7 @@
          // Тут я могу написать любой js код который выполнится после загрузки
          // страницы, много строк
       $('#color').simplecolorpicker();  // вызов плагина на странице
+      $('#datetimepicker').datetimepicker();
    });
    
 
@@ -30,7 +31,7 @@
 
    <div class="form-group">
     <label class="form-label">Когда Вас ждать?</label>
-    <input name="datetime" type="text" class="form-control" placeholder="Введите время и дату" value="<%= @datetime %>">
+    <input id="datetimepicker" name="datetime" type="text" class="form-control" placeholder="Введите время и дату" value="<%= @datetime %>">
    </div>
 
    <div class="form-group">
