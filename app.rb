@@ -4,21 +4,28 @@ require 'sinatra'				# Подключаем гем Синатры
 require 'sinatra/reloader' # Подключаем гем для обновления страницы без перезапуска синатры
 require 'sqlite3'				# Подключаем SQL
 
+def get_db
+  return SQLite3::Database.new 'Barbershop.sqlite'
+end
+
+
 # Инициализация БД
 configure do 
 
 	# Подключение к БД. Если файл есть - будет открыт, если нет - будет создан.
-	@db = SQLite3::Database.new 'Barbershop.sqlite' 
+	db = get_db 
 
-	# Создаем таблицу
-	@db.execute 'create table if not exists "users"
-	( 
-	  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-	  "username" TEXT,
-	  "datestamp" TEXT,
-	  "barber" TEXT,
-	  "color" TEXT
-	)'
+	# Создаем таблицу при открытии БД
+	db.execute 'create table if not exists "users"
+		( 
+		  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+		  "username" TEXT,
+		  "phone" TEXT,
+		  "datestamp" TEXT,
+		  "barber" TEXT,
+		  "color" TEXT
+		)'
+	
 end
 
 
@@ -76,6 +83,22 @@ post '/visit' do
 		return erb :visit
 	end
 
+	# Сохраняем в БД инпут пользователя SQL запросом.
+	# !!! колонка времени названа datestamp по причине того, что
+	# datetime является зарезервированным словом в SQL, что могло
+	# привести к ошибкам в дальнейшем в работе с БД.
+	db = SQLite3::Database.new 'Barbershop.sqlite'
+	db.execute 'INSERT INTO 
+		users
+		(
+			username,
+			phone,
+			datestamp,
+			barber,
+			color
+		) 
+		values ( ?, ?, ?, ?, ?)' , [@username, @phone, @datetime, @barber, @color]
+	
 	erb "OK, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 
 end
