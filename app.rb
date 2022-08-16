@@ -5,7 +5,9 @@ require 'sinatra/reloader' # Подключаем гем для обновлен
 require 'sqlite3'				# Подключаем SQL
 
 def get_db
-  return SQLite3::Database.new 'Barbershop.sqlite'
+  		db = SQLite3::Database.new 'Barbershop.sqlite'
+  		db.results_as_hash = true
+  		return db
 end
 
 
@@ -100,5 +102,11 @@ post '/visit' do
 		values ( ?, ?, ?, ?, ?)' , [@username, @phone, @datetime, @barber, @color]
 	
 	erb "OK, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
+
+end
+
+get '/showusers' do
+
+  erb  "Hello World"
 
 end
