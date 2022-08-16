@@ -108,6 +108,12 @@ post '/visit' do
 end
 
 get '/showusers' do
+	db = get_db
+
+		# собираем в переменную результат выборки из БД
+	@results = db.execute 'select * from Users order by id desc'
+
+
 	erb :showusers
 =begin	@users=[]
 	db = SQLite3::Database.new 'Barbershop.sqlite'
