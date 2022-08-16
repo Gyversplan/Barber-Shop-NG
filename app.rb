@@ -89,6 +89,7 @@ post '/visit' do
 	# !!! колонка времени названа datestamp по причине того, что
 	# datetime является зарезервированным словом в SQL, что могло
 	# привести к ошибкам в дальнейшем в работе с БД.
+	
 	db = SQLite3::Database.new 'Barbershop.sqlite'
 	db.execute 'INSERT INTO 
 		users
@@ -106,7 +107,23 @@ post '/visit' do
 end
 
 get '/showusers' do
+	#erb :showusers
+	@users=[]
+	db = SQLite3::Database.new 'Barbershop.sqlite'
+	db.execute 'select * from users order by id desc' do |row|
+		
+		@users << row[1]
+		print row[1]
+		puts "==========="
+		
+	end
 
-  erb  "Hello World"
+	
+
+	erb "Users next #{@users}"
+	
+	# erb "OK, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
+
+   # erb  "Hello World"
 
 end
