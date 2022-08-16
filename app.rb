@@ -12,6 +12,7 @@ end
 
 
 # Инициализация БД
+##############################
 configure do 
 
 	# Подключение к БД. Если файл есть - будет открыт, если нет - будет создан.
@@ -30,7 +31,7 @@ configure do
 	
 end
 
-
+######################################
 get '/' do
 	erb "Hello! <a href=\"https://github.com/bootstrap-ruby/sinatra-bootstrap\">Original</a> pattern has been modified for <a href=\"http://rubyschool.us/\">Ruby School</a>!!!"			
 end
@@ -107,8 +108,8 @@ post '/visit' do
 end
 
 get '/showusers' do
-	#erb :showusers
-	@users=[]
+	erb :showusers
+=begin	@users=[]
 	db = SQLite3::Database.new 'Barbershop.sqlite'
 	db.execute 'select * from users order by id desc' do |row|
 		
@@ -118,10 +119,8 @@ get '/showusers' do
 		
 	end
 
-	
-
 	erb "Users next #{@users}"
-	
+=end	
 	# erb "OK, username is #{@username}, #{@phone}, #{@datetime}, #{@barber}, #{@color}"
 
    # erb  "Hello World"
