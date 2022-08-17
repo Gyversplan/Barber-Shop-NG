@@ -4,6 +4,26 @@ require 'sinatra'				# Подключаем гем Синатры
 require 'sinatra/reloader' # Подключаем гем для обновления страницы без перезапуска синатры
 require 'sqlite3'				# Подключаем SQL
 
+
+		# Реализуем функцию опроса БД барберс на предмет присутствия
+		# записей в ней. Возвращает булевое значения true\false
+def is_barber_exists? db, name 
+		db.execute('select * from barbers where name=?', [name]).length > 0
+end
+
+		# Добавление записей в таблицу barbers
+def seed_db db, barbers
+				# Перебираем все значения в БД
+		barbers.each do |barber|
+						# Ищем среди перебираемых не существует ли искомый и если
+						# нет, то добавляем его в БД
+			if !is_barber_exists? db, barber
+				db.execute 'insert into Barbers (name) values (?)', [barber]
+
+			end
+		end
+end
+
 def get_db
   		db = SQLite3::Database.new 'Barbershop.sqlite'
   		db.results_as_hash = true
@@ -18,7 +38,7 @@ configure do
 	# Подключение к БД. Если файл есть - будет открыт, если нет - будет создан.
 	db = get_db 
 
-	# Создаем таблицу при открытии БД
+			# Создаем таблицу при открытии БД
 	db.execute 'create table if not exists "users"
 		( 
 		  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,7 +48,15 @@ configure do
 		  "barber" TEXT,
 		  "color" TEXT
 		)'
-	
+			# создание таблицы парикмахеров barbers
+	db.execute 'create table if not exists "barbers"
+		( 
+		  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+		  "name" TEXT
+		)'
+
+			# вызываем функцию seed_db для заполнения списка выбора мастеров
+	seed_db db, [ 'Jessie Pinkman', 'Walter White', 'Gus Fring', 'Mike Rappoport' ]
 end
 
 ######################################
